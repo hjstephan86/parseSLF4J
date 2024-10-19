@@ -12,7 +12,7 @@ public class Parser {
 		BufferedReader reader;
 
 		try {
-			reader = new BufferedReader(new FileReader("C:\\Users\\Steph\\OneDrive\\Desktop\\SLF4J-20240802.txt"));
+			reader = new BufferedReader(new FileReader("/home/stephan/Downloads/bible-app-logs-1729368088617.txt"));
 			String line = reader.readLine();
 			while (line != null) {
 				String keyRemoteAdress = ": Remote address";
