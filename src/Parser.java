@@ -3,16 +3,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
 
 public class Parser {
 
 	public static void main(String[] args) {
-		LinkedHashSet<String> ips = new LinkedHashSet<String>();
+		LinkedHashMap<String, IP> ips = new LinkedHashMap<String, IP>();
 		BufferedReader reader;
 
 		try {
-			reader = new BufferedReader(new FileReader("C:\\Users\\Steph\\OneDrive\\Desktop\\SLF4J-20240802.txt"));
+			reader = new BufferedReader(new FileReader("/home/stephan/Downloads/bible-app-logs-2024-10-22-07-53.txt"));
 			String line = reader.readLine();
 			while (line != null) {
 				String keyRemoteAdress = ": Remote address";
@@ -20,9 +20,12 @@ public class Parser {
 					String ip = line.substring(line.indexOf(keyRemoteAdress) + keyRemoteAdress.length() + 1,
 							line.indexOf(" requested"));
 
-					if (!ips.contains(ip)) {
-						ips.add(ip);
-						// System.out.println(ip);
+					if (ips.get(ip) == null) {
+						ips.put(ip, new IP(ip));
+					} else {
+						IP ipObj = ips.get(ip);
+						int occurrence = ipObj.getOccurrence();
+						ipObj.setOccurrence(occurrence + 1);
 					}
 				}
 				// Read next line
@@ -30,12 +33,7 @@ public class Parser {
 			}
 			reader.close();
 
-			// Sort ips
-			ArrayList<IP> ipsList = new ArrayList<IP>(ips.size());
-			for (String ip : ips) {
-				ipsList.add(new IP(ip));
-			}
-
+			ArrayList<IP> ipsList = new ArrayList<IP>(ips.values());
 			Collections.sort(ipsList);
 			for (int i = 0; i < ipsList.size(); i++) {
 				System.out.println(ipsList.get(i));

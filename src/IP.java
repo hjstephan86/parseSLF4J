@@ -2,10 +2,11 @@ public class IP implements Comparable<IP> {
 
 	private String ip;
 	private int[] intIPArray;
+	private int occurrence;
 
 	public IP(String ip) {
 		this.ip = ip;
-
+		this.occurrence = 1;
 		setIPArray();
 	}
 
@@ -32,7 +33,14 @@ public class IP implements Comparable<IP> {
 
 	@Override
 	public int compareTo(IP o) {
-		// Sort in ascending order
+		if (this.occurrence == o.getOccurrence())
+			return 0;
+		else
+			return this.occurrence > o.getOccurrence() ? -1 : 1;
+		// return getIPOrderResult(o);
+	}
+
+	private int getIPOrderResult(IP o) {
 		for (int i = 0; i < this.getIPArray().length; i++) {
 			if (this.getIPArray()[i] < o.getIPArray()[i]) {
 				return -1;
@@ -43,7 +51,16 @@ public class IP implements Comparable<IP> {
 		return 0;
 	}
 
+	public int getOccurrence() {
+		return occurrence;
+	}
+
+	public void setOccurrence(int occurrence) {
+		this.occurrence = occurrence;
+	}
+
 	public String toString() {
-		return intIPArray[0] + "." + intIPArray[1] + "." + intIPArray[2] + "." + intIPArray[3];
+		return intIPArray[0] + "." + intIPArray[1] + "." + intIPArray[2] + "." + intIPArray[3] + " requested "
+				+ occurrence + " times.";
 	}
 }
