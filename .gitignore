@@ -2,4 +2,7 @@
 .settings/
 .vscode/
 target/
+*.txt
+*.gz
+*.sh
 
