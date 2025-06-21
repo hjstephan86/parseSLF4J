@@ -16,7 +16,7 @@ import com.parseSLF4J.parser.papertrail.Root;
 public class DownloadPapertrailArchive {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        String token = "3lPbsIymQL0vTyDC6x9"; // Replace with your actual token
+        String token = System.getenv("PAPERTRAIL_API_TOKEN");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://papertrailapp.com/api/v1/archives/"))
@@ -41,18 +41,13 @@ public class DownloadPapertrailArchive {
 
     public static void downloadGZipArchive(String token, String filename, String url)
             throws IOException, InterruptedException {
-        // Build the command with arguments
         ProcessBuilder processBuilder = new ProcessBuilder("curl", "--no-include", "-o", filename,
                 "-L", "-H",
                 "X-Papertrail-Token: " + token, url);
 
-        // Start the process
         Process process = processBuilder.start();
-
-        // Wait for the process to finish
         process.waitFor();
 
-        // Handle any potential errors
         int exitCode = process.exitValue();
         if (exitCode != 0) {
             System.err.println("Error downloading archive: " + exitCode + ", " + filename);
@@ -63,11 +58,7 @@ public class DownloadPapertrailArchive {
 
     private static void printGZipArchive(String filename) throws IOException, InterruptedException {
         ProcessBuilder processBuilder = new ProcessBuilder("gunzip", filename);
-
-        // Start the process
         Process process = processBuilder.start();
-
-        // Wait for the process to finish
         process.waitFor();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -76,7 +67,6 @@ public class DownloadPapertrailArchive {
             System.out.println(line);
         }
 
-        // Handle any potential errors
         int exitCode = process.exitValue();
         if (exitCode != 0) {
             System.err.println("Error unzipping archive: " + exitCode + ", " + filename);
@@ -87,7 +77,6 @@ public class DownloadPapertrailArchive {
         line = reader.readLine();
         while (line != null) {
             System.out.println(line);
-            // Read next line
             line = reader.readLine();
         }
         reader.close();
