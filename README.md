@@ -34,11 +34,11 @@ awk '{print $2, $3}' regions.txt | sort -u
 heroku logs --app bible-app --source app | cut -c46- | grep requested | awk '{print $12}' | uniq > ips.txt
 
 # Process the extracted IPs with a Python script
-python3 ips.py
+python3 ips.py ips.txt
 ```
 
 ## Requests World Wide
-Interesting to observe that within 140 days from initial deployment in Oct 2024 until  March 2025 users from 33 countries and 5 continents requested [https://www.123-bibel.de](https://www.123-bibel.de):
+Interesting to observe that within 140 days from initial deployment on October 2024, 22/10/2024, until March 2025, 11/03/2025, users from 33 countries and 5 continents requested [https://www.123-bibel.de](https://www.123-bibel.de):
 Austria, 
 Bangladesh,
 Belgium, 
